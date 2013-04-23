@@ -3,7 +3,7 @@ import sys
 from ctypes import *
 from ctypes.util import find_library
 
-import distutils
+from distutils import sysconfig
 
 
 def get_shared_lib_extension(is_python_ext=False):
@@ -27,12 +27,12 @@ def get_shared_lib_extension(is_python_ext=False):
     Linux, but not on OS X.
 
     """
-    so_ext = distutils.sysconfig.get_config_var('SO') or ''
+    so_ext = sysconfig.get_config_var('SO') or ''
     # fix long extension for Python >=3.2, see PEP 3149.
-    if not is_python_ext and 'SOABI' in distutils.sysconfig.get_config_vars():
+    if not is_python_ext and 'SOABI' in sysconfig.get_config_vars():
         # Does nothing unless SOABI config var exists
         so_ext = so_ext.replace(
-            '.' + distutils.sysconfig.get_config_var('SOABI'), '', 1)
+            '.' + sysconfig.get_config_var('SOABI'), '', 1)
 
     return so_ext
 
